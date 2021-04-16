@@ -1,4 +1,5 @@
 import 'package:f_202110_firebase_google_login/Formularios/RegisterForm.dart';
+import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
 import 'package:f_202110_firebase_google_login/Formularios/menuLateral.dart';
 import 'package:f_202110_firebase_google_login/Formularios/registerPage.dart';
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text('Login'),
                   color: Color.fromRGBO(245, 100, 90, 100),
                   textColor: Colors.white,
-                  onPressed: () => null,
+                  onPressed: () => _pushPage(context, SearchRestaurant()),
                 ),
                 Spacer(),
                 FlatButton(
