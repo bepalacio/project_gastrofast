@@ -1,4 +1,5 @@
 import 'package:f_202110_firebase_google_login/Formularios/loginPage.dart';
+import 'package:f_202110_firebase_google_login/Formularios/menuLateral.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,9 @@ class GoogleLoggedIn extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Home"),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Color.fromRGBO(245, 100, 90, 10),
       ),
+      drawer: MenuLateral(),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -41,14 +43,14 @@ class GoogleLoggedIn extends StatelessWidget {
               style: TextStyle(color: Colors.orangeAccent, fontSize: 20),
               textAlign: TextAlign.center,
             ),
-            TextButton(
-                child: Text("Cerrar sesión"),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(CupertinoPageRoute(
-                    builder: (context) => (LoginPage()),
-                  ));
-                  _signOutGoogle();
-                })
+            // TextButton(
+            //     child: Text("Cerrar sesión"),
+            //     onPressed: () {
+            //       Navigator.of(context).pushReplacement(CupertinoPageRoute(
+            //         builder: (context) => (LoginPage()),
+            //       ));
+            //       _signOutGoogle();
+            //     })
           ],
         ),
       ),

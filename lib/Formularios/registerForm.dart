@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -13,10 +15,11 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _apellidoController = TextEditingController();
+  final TextEditingController _confirmPassController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
+  final TextEditingController _telefonoController = TextEditingController();
   bool success;
   String userEmail;
 
@@ -43,45 +46,13 @@ class _RegisterFormState extends State<RegisterForm> {
               height: 15.0,
             ),
             TextFormField(
-              controller: _nombreController,
-              decoration: InputDecoration(
-                  labelText: "Nombre",
-                  icon: Icon(Icons.supervised_user_circle_outlined)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese un correo';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _apellidoController,
-              decoration: InputDecoration(
-                  labelText: "Apellido",
-                  icon: Icon(Icons.supervised_user_circle_outlined)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese un correo';
-                }
-              },
-            ),
-            TextFormField(
               controller: _usernameController,
               decoration: InputDecoration(
                   labelText: "Nombre de usuario",
                   icon: Icon(Icons.supervised_user_circle)),
               validator: (String value) {
                 if (value.isEmpty) {
-                  return 'Por favor ingrese un correo';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _emailController,
-              decoration:
-                  InputDecoration(labelText: "Correo", icon: Icon(Icons.email)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese un correo';
+                  return 'Por favor ingrese un nombre de usuario';
                 }
               },
             ),
@@ -93,6 +64,49 @@ class _RegisterFormState extends State<RegisterForm> {
               validator: (String value) {
                 if (value.isEmpty) {
                   return 'Por favor ingrese una contraseña';
+                }
+              },
+            ),
+            TextFormField(
+              controller: _confirmPassController,
+              obscureText: true,
+              decoration: InputDecoration(
+                  labelText: "Confirmar contraseña", icon: Icon(Icons.vpn_key)),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'Por favor validar contraseña';
+                }
+              },
+            ),
+            TextFormField(
+              controller: _nombreController,
+              decoration: InputDecoration(
+                  labelText: "Nombre completo",
+                  icon: Icon(Icons.supervised_user_circle_outlined)),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'Por favor ingrese su nombre completo';
+                }
+              },
+            ),
+            TextFormField(
+              controller: _telefonoController,
+              decoration: InputDecoration(
+                  labelText: "Telefono",
+                  icon: Icon(Icons.supervised_user_circle_outlined)),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'Por favor ingrese su telefono';
+                }
+              },
+            ),
+            TextFormField(
+              controller: _emailController,
+              decoration:
+                  InputDecoration(labelText: "Correo", icon: Icon(Icons.email)),
+              validator: (String value) {
+                if (value.isEmpty) {
+                  return 'Por favor ingrese un correo';
                 }
               },
             ),
@@ -131,12 +145,15 @@ class _RegisterFormState extends State<RegisterForm> {
 
   void dispose() {
     _nombreController.dispose();
-    _apellidoController.dispose();
+    _confirmPassController.dispose();
     _usernameController.dispose();
     _passController.dispose();
     _emailController.dispose();
+    _telefonoController.dispose();
     super.dispose();
   }
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   void _register() async {
     final UserCredential user = await _auth.createUserWithEmailAndPassword(
@@ -146,6 +163,13 @@ class _RegisterFormState extends State<RegisterForm> {
       setState(() {
         success = true;
         userEmail = user.user.email;
+        addUser(
+            user.user.uid,
+            _nombreController.text,
+            _usernameController.text,
+            int.parse(_telefonoController.text),
+            _emailController.text,
+            _passController.text);
       });
     } else {
       success = false;
@@ -176,6 +200,23 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
+  Future<void> addUser(String uid, String fullName, String username,
+      int telefono, String correo, String pass) {
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    // Call the user's CollectionReference to add a new user
+    return users
+        .add({
+          'uid': uid,
+          'name': fullName,
+          'username': username,
+          'phone': telefono,
+          'email': correo,
+          'password': pass
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
   Future<void> _showMyDialog(BuildContext context, mensaje, titulo) async {
     return showDialog<void>(
       context: context,
@@ -200,6 +241,43 @@ class _RegisterFormState extends State<RegisterForm> {
           ],
         );
       },
+    );
+  }
+}
+
+class AddUser extends StatelessWidget {
+  final String fullName;
+  final String username;
+  final String pass;
+  final String correo;
+  final int telefono;
+
+  AddUser(this.fullName, this.username, this.pass, this.correo, this.telefono);
+
+  @override
+  Widget build(BuildContext context) {
+    // Create a CollectionReference called users that references the firestore collection
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+
+    Future<void> addUser() {
+      // Call the user's CollectionReference to add a new user
+      return users
+          .add({
+            'name': fullName,
+            'username': username,
+            'phone': telefono,
+            'email': correo,
+            'password': pass
+          })
+          .then((value) => print("User Added"))
+          .catchError((error) => print("Failed to add user: $error"));
+    }
+
+    return TextButton(
+      onPressed: addUser,
+      child: Text(
+        "Add User",
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:f_202110_firebase_google_login/Formularios/RegisterForm.dart';
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
+import 'package:f_202110_firebase_google_login/Formularios/menuLateral.dart';
 import 'package:f_202110_firebase_google_login/Formularios/registerPage.dart';
 import 'package:f_202110_firebase_google_login/google/google_central.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,11 +8,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'emailPage.dart';
 
+bool sw1 = false;
+bool sw2 = false;
+
 class LoginPage extends StatefulWidget {
   final String titulo;
+
   LoginPage({Key key, this.titulo}) : super(key: key);
 
   _LoginPageState createState() => _LoginPageState();
@@ -26,8 +32,9 @@ class _LoginPageState extends State<LoginPage> {
           .signInWithEmailAndPassword(email: correo, password: pass)
           .then((UserCredential currentUser) {
         Navigator.of(context).pushReplacement(CupertinoPageRoute(
-          builder: (context) => Home(),
+          builder: (context) => MenuLateral(),
         ));
+        sw1 = true;
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -122,23 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(20.0),
                   side: BorderSide(color: Colors.red)),
               onPressed: () {
-                // FirebaseAuth.instance
-                //     .signInWithEmailAndPassword(
-                //         email: _emailController.text,
-                //         password: _passController.text)
-                //     .then((UserCredential user) {
-                //   Navigator.of(context).pushReplacement(CupertinoPageRoute(
-                //     builder: (context) => Home(),
-                //   ));
-                // }).catchError((e) {
-                //   print(e);
-                // });
                 _login(context, _emailController.text, _passController.text);
               },
             ),
-            SignInButton(Buttons.Google,
-                text: "Google",
-                onPressed: () => _pushPage(context, GoogleCentral())),
+            SignInButton(Buttons.Google, text: "Google", onPressed: () {
+              _signInWithGoogle(context);
+            }),
             SignInButton(Buttons.Facebook,
                 text: "Facebook",
                 onPressed: () => _pushPage(context, GoogleCentral())),
@@ -150,6 +146,30 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+}
+
+Future _signInWithGoogle(BuildContext context) async {
+  // get GoogleUser
+  final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+  // authenticate against google with that user
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  // get the credentials from the authentication to use on firebase
+  final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  // use those credentials to signin with firebase
+  await FirebaseAuth.instance
+      .signInWithCredential(credential)
+      .then((UserCredential currentUser) {
+    sw2 = true;
+    Navigator.of(context).pushReplacement(CupertinoPageRoute(
+      builder: (context) => MenuLateral(),
+    ));
+  });
 }
 
 Future<void> _showMyDialog(BuildContext context, mensaje) async {

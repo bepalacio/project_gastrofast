@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'menuLateral.dart';
+
 class Home extends StatelessWidget {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final User user = FirebaseAuth.instance.currentUser;
@@ -14,6 +16,7 @@ class Home extends StatelessWidget {
         title: Text("Home"),
         backgroundColor: Colors.orangeAccent,
       ),
+      drawer: MenuLateral(),
       body: Center(
         child: Column(
           children: <Widget>[
