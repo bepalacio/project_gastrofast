@@ -163,13 +163,7 @@ class _RegisterFormState extends State<RegisterForm> {
       setState(() {
         success = true;
         userEmail = user.user.email;
-        addUser(
-            user.user.uid,
-            _nombreController.text,
-            _usernameController.text,
-            int.parse(_telefonoController.text),
-            _emailController.text,
-            _passController.text);
+        //
       });
     } else {
       success = false;
@@ -183,6 +177,13 @@ class _RegisterFormState extends State<RegisterForm> {
       Navigator.of(context).pop();
       _showMyDialog(context, "El usuario se ha registrado correctamente.",
           "Registro exitoso");
+      addUser(
+          user.user.uid,
+          _nombreController.text,
+          _usernameController.text,
+          int.parse(_telefonoController.text),
+          _emailController.text,
+          _passController.text);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -200,20 +201,29 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
-  Future<void> addUser(String uid, String fullName, String username,
-      int telefono, String correo, String pass) {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final firestoreInstance = FirebaseFirestore.instance;
+
+  void addUser(String uid, String fullName, String username, int telefono,
+      String correo, String pass) {
+    print("Agregando usuario");
+    print("NOmbre: " + fullName);
+    print("username: " + username);
+    print("telefono: " + telefono.toString());
+    print("correo: " + correo);
+    print("pass: " + pass);
     // Call the user's CollectionReference to add a new user
-    return users
-        .add({
-          'uid': uid,
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    firestoreInstance
+        .collection("users")
+        .doc(firebaseUser.uid)
+        .set({
           'name': fullName,
           'username': username,
           'phone': telefono,
           'email': correo,
           'password': pass
         })
-        .then((value) => print("User Added"))
+        .then((_) => print("User Added" + firebaseUser.uid))
         .catchError((error) => print("Failed to add user: $error"));
   }
 
