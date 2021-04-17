@@ -13,7 +13,9 @@ class _PayMethodState extends State<PayMethod> {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(),
+          SliverAppBar(
+            backgroundColor: Color.fromRGBO(244, 202, 110, 100),
+          ),
           const SliverToBoxAdapter(),
           SliverList(
             delegate: SliverChildBuilderDelegate(

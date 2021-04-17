@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
 final firestoreInstance = FirebaseFirestore.instance;
 
 Future<void> addUser(String uid, String fullName, String username, int telefono,
-    String correo, String pass, BuildContext context) {
+    String correo, String pass, BuildContext context, String foto) {
   print("Agregando usuario");
   print("NOmbre: " + fullName);
   print("username: " + username);
@@ -170,7 +170,8 @@ Future<void> addUser(String uid, String fullName, String username, int telefono,
         'username': username,
         'phone': telefono,
         'email': correo,
-        'password': pass
+        'password': pass,
+        'photo': foto
       })
       .then((_) => print("User Added" + firebaseUser.uid))
       .catchError((error) => print("Failed to add user: $error"));
@@ -195,6 +196,8 @@ Future _signInWithGoogle(BuildContext context) async {
       .signInWithCredential(credential)
       .then((UserCredential currentUser) {
     sw2 = true;
+    addUser(currentUser.user.uid, currentUser.user.displayName, "username", 0,
+        currentUser.user.email, "", context, currentUser.user.photoURL);
     Navigator.of(context).pushReplacement(CupertinoPageRoute(
       builder: (context) => MenuLateral(),
     ));

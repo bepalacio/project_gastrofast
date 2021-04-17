@@ -16,7 +16,7 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Restaurantes'),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Color.fromRGBO(245, 100, 90, 50),
       ),
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -73,6 +73,10 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
                 ElevatedButton.icon(
                   label: Text('Ver en Mapa'),
                   icon: Icon(Icons.search),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(245, 100, 90, 50), // background
+                    onPrimary: Colors.white, // foreground
+                  ),
                   onPressed: () => _pushPage(context, RestaurantMaps()),
                 )
               ],

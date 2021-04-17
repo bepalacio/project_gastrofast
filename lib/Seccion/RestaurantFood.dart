@@ -25,6 +25,7 @@ class _RestaurantFoodState extends State<RestaurantFood> {
             pinned: _pinned,
             snap: _snap,
             floating: _floating,
+            backgroundColor: Color.fromRGBO(244, 202, 110, 100),
           ),
           const SliverToBoxAdapter(),
           SliverList(
