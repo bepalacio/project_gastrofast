@@ -1,5 +1,6 @@
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
 import 'package:f_202110_firebase_google_login/Formularios/perfil.dart';
+import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:f_202110_firebase_google_login/google/google_log_in.dart';
 import 'package:f_202110_firebase_google_login/google/google_logged_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -94,7 +95,7 @@ class Interface_Entrada extends StatelessWidget {
               ),
               SizedBox(height: 10),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () => _pushPage(context, SearchRestaurant()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

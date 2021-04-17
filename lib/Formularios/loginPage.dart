@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Formularios/RegisterForm.dart';
 import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
@@ -85,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text('Login'),
                   color: Color.fromRGBO(245, 100, 90, 100),
                   textColor: Colors.white,
-                  onPressed: () => _pushPage(context, SearchRestaurant()),
+                  onPressed: () {},
                 ),
                 Spacer(),
                 FlatButton(
@@ -149,6 +150,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
+final firestoreInstance = FirebaseFirestore.instance;
+
+Future<void> addUser(String uid, String fullName, String username, int telefono,
+    String correo, String pass, BuildContext context) {
+  print("Agregando usuario");
+  print("NOmbre: " + fullName);
+  print("username: " + username);
+  print("telefono: " + telefono.toString());
+  print("correo: " + correo);
+  print("pass: " + pass);
+  // Call the user's CollectionReference to add a new user
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  firestoreInstance
+      .collection("users")
+      .doc(firebaseUser.uid)
+      .set({
+        'name': fullName,
+        'username': username,
+        'phone': telefono,
+        'email': correo,
+        'password': pass
+      })
+      .then((_) => print("User Added" + firebaseUser.uid))
+      .catchError((error) => print("Failed to add user: $error"));
+}
+
 Future _signInWithGoogle(BuildContext context) async {
   // get GoogleUser
   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -163,6 +190,7 @@ Future _signInWithGoogle(BuildContext context) async {
   );
 
   // use those credentials to signin with firebase
+
   await FirebaseAuth.instance
       .signInWithCredential(credential)
       .then((UserCredential currentUser) {
