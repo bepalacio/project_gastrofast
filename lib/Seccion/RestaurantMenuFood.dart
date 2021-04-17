@@ -88,7 +88,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa Sencilla'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),
@@ -96,7 +96,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa de pollo'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),
@@ -104,7 +104,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa de carne'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),
@@ -112,7 +112,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa suiza'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),
@@ -120,7 +120,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa Mixta'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),
@@ -128,7 +128,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300,
                               height: 100,
                               child: FlatButton(
-                                  child: Text('Perros Sencillo'),
+                                  child: Text('Salchipapa Vegetariana'),
                                   color: Color.fromRGBO(255, 255, 255, 100),
                                   onPressed: () =>
                                       _pushPage(context, RestaurantFood()))),

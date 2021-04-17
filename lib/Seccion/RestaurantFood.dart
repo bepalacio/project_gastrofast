@@ -59,7 +59,7 @@ class _RestaurantFoodState extends State<RestaurantFood> {
                             child: Align(
                               alignment: Alignment(0.8, 0),
                               child: Text(
-                                  " Salchipapa Sencilla \n\n Precio: 9000"),
+                                  " Salchipapa Sencilla \n\n Precio: 11.900"),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),

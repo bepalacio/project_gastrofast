@@ -78,7 +78,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                               width: 300.0,
                               height: 100.0,
                               child: FlatButton(
-                                  child: Text('Perros'),
+                                  child: Text('Salchipapas'),
                                   color: Color.fromRGBO(255, 214, 0, 100),
                                   onPressed: () => _pushPage(
                                       context, RestaurantMenuFood()))),
@@ -90,7 +90,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                               width: 300.0,
                               height: 100.0,
                               child: FlatButton(
-                                  child: Text('Salchipapas'),
+                                  child: Text('Perros'),
                                   color: Color.fromRGBO(237, 118, 118, 100),
                                   onPressed: () => null)),
                           SizedBox(

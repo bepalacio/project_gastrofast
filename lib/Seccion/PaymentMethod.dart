@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:f_202110_firebase_google_login/Seccion/PaymentMethod.dart';
 
-class Cart extends StatefulWidget {
-  Cart({Key key}) : super(key: key);
+class PayMethod extends StatefulWidget {
+  PayMethod({Key key}) : super(key: key);
 
   @override
-  _CartState createState() => _CartState();
+  _PayMethodState createState() => _PayMethodState();
 }
 
-class _CartState extends State<Cart> {
+class _PayMethodState extends State<PayMethod> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +35,7 @@ class _CartState extends State<Cart> {
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: Column(
                         children: <Widget>[
-                          Text("Carrito",
+                          Text("Metodo de pago",
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -46,7 +45,8 @@ class _CartState extends State<Cart> {
                             width: 300.0,
                             height: 15.0,
                           ),
-                          Text("Desliza para eliminar del carrito",
+                          Text(
+                              "Escoge el metodo por el cual deseas pagar el pedido",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 15)),
                           SizedBox(
@@ -55,11 +55,10 @@ class _CartState extends State<Cart> {
                           ),
                           Container(
                             width: 300,
-                            height: 100,
+                            height: 40,
                             child: Align(
-                              alignment: Alignment(0.8, 0),
-                              child: Text(
-                                  " Salchipapa Sencilla \n\n Precio: 11.900"),
+                              alignment: Alignment(0.5, 0),
+                              child: Text("Tarjeta"),
                             ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFFFFF),
@@ -67,27 +66,15 @@ class _CartState extends State<Cart> {
                                 color: Colors.black,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                          ),
-                          SizedBox(
-                            width: 300.0,
-                            height: 20.0,
-                          ),
-                          SizedBox(
-                            width: 300.0,
-                            child: Text("Total a pagar"),
-                          ),
-                          SizedBox(
-                            width: 300.0,
-                            height: 20.0,
                           ),
                           Container(
                             width: 300,
-                            height: 50,
+                            height: 40,
                             child: Align(
-                              alignment: Alignment(-0.9, 0),
-                              child: Text(" \$ 11.900"),
+                              alignment: Alignment(0.5, 0),
+                              child: Text("Efectivo"),
                             ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFFFFF),
@@ -95,20 +82,70 @@ class _CartState extends State<Cart> {
                                 color: Colors.black,
                                 width: 1,
                               ),
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Container(
+                            width: 300,
+                            height: 40,
+                            child: Align(
+                              alignment: Alignment(0.5, 0),
+                              child: Text("Nequi"),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFFFFF),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            height: 40,
+                            child: Text("Metodo de entrega"),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Container(
+                            width: 300,
+                            height: 40,
+                            child: Align(
+                              alignment: Alignment(0.5, 0),
+                              child: Text("Envio a hogar"),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFFFFF),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Container(
+                            width: 300,
+                            height: 40,
+                            child: Align(
+                              alignment: Alignment(0.5, 0),
+                              child: Text("Ir a Buscar"),
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFFFFF),
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
                           SizedBox(
                             width: 300.0,
-                            height: 20.0,
-                          ),
-                          Text("Cumple Con el presupuesto",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(30, 255, 0, 100),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15)),
-                          SizedBox(
-                            height: 230.0,
+                            height: 170.0,
                           ),
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
@@ -116,9 +153,9 @@ class _CartState extends State<Cart> {
                                   245, 100, 90, 50), // background
                               onPrimary: Colors.white, // foreground
                             ),
-                            label: Text('Metodo de pago'),
+                            label: Text('Proceder con el pago'),
                             icon: Icon(Icons.payment_sharp),
-                            onPressed: () => _pushPage(context, PayMethod()),
+                            onPressed: () => null,
                           )
                         ],
                       ),
