@@ -13,11 +13,11 @@ class SearchRestaurant extends StatefulWidget {
 class _SearchRestaurantState extends State<SearchRestaurant> {
   String valueChoose;
   List listItem = [
-    "Item 1",
-    "Item 2",
-    "Item 3",
-    "Item 4",
-    "Item 5",
+    "Salchipapas",
+    "Perros",
+    "Pizzas",
+    "Desgranados",
+    "Hamburguesa",
   ];
 
   @override
