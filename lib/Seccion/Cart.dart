@@ -14,7 +14,9 @@ class _CartState extends State<Cart> {
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(),
+          SliverAppBar(
+            backgroundColor: Color.fromRGBO(244, 202, 110, 100),
+          ),
           const SliverToBoxAdapter(),
           SliverList(
             delegate: SliverChildBuilderDelegate(

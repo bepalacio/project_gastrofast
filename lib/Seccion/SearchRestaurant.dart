@@ -25,7 +25,7 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Busca aquello que deseas'),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Color.fromRGBO(245, 100, 90, 50),
       ),
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -123,6 +123,10 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
                 ElevatedButton.icon(
                   label: Text('Buscar'),
                   icon: Icon(Icons.search),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(245, 100, 90, 50), // background
+                    onPrimary: Colors.white, // foreground
+                  ),
                   onPressed: () => _pushPage(context, RestaurantEncounter()),
                 )
               ],

@@ -177,13 +177,8 @@ class _RegisterFormState extends State<RegisterForm> {
       Navigator.of(context).pop();
       _showMyDialog(context, "El usuario se ha registrado correctamente.",
           "Registro exitoso");
-      addUser(
-          user.user.uid,
-          _nombreController.text,
-          _usernameController.text,
-          int.parse(_telefonoController.text),
-          _emailController.text,
-          _passController.text);
+      addUser(user.user.uid, _nombreController.text, _usernameController.text,
+          int.parse(_telefonoController.text), _emailController.text, "", "");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -204,7 +199,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final firestoreInstance = FirebaseFirestore.instance;
 
   void addUser(String uid, String fullName, String username, int telefono,
-      String correo, String pass) {
+      String correo, String pass, String foto) {
     print("Agregando usuario");
     print("NOmbre: " + fullName);
     print("username: " + username);
@@ -221,7 +216,8 @@ class _RegisterFormState extends State<RegisterForm> {
           'username': username,
           'phone': telefono,
           'email': correo,
-          'password': pass
+          'password': pass,
+          'photo': foto
         })
         .then((_) => print("User Added" + firebaseUser.uid))
         .catchError((error) => print("Failed to add user: $error"));
@@ -277,7 +273,7 @@ class AddUser extends StatelessWidget {
             'username': username,
             'phone': telefono,
             'email': correo,
-            'password': pass
+            'password': pass,
           })
           .then((value) => print("User Added"))
           .catchError((error) => print("Failed to add user: $error"));
