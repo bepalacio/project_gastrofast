@@ -1,5 +1,6 @@
 import 'package:f_202110_firebase_google_login/Seccion/Restaurant.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchRestaurant extends StatefulWidget {
   SearchRestaurant({Key key, this.title}) : super(key: key);
@@ -10,8 +11,12 @@ class SearchRestaurant extends StatefulWidget {
   _SearchRestaurantState createState() => _SearchRestaurantState();
 }
 
+final firestoreInstance = FirebaseFirestore.instance;
+String categoria = "";
+
 class _SearchRestaurantState extends State<SearchRestaurant> {
   String valueChoose;
+
   List listItem = [
     "Salchipapas",
     "Perros",
@@ -82,6 +87,7 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
                     onChanged: (newValue) {
                       setState(() {
                         valueChoose = newValue;
+                        categoria = valueChoose;
                       });
                     },
                     items: listItem.map((valueItem) {

@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantDetails.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantMenu.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantMaps.dart';
+import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantEncounter extends StatefulWidget {
@@ -11,6 +13,12 @@ class RestaurantEncounter extends StatefulWidget {
 }
 
 class _RestaurantEncounterState extends State<RestaurantEncounter> {
+  @override
+  void initState() {
+    super.initState();
+    _buscarRestaurante();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,4 +100,24 @@ void _pushPage(BuildContext context, Widget page) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
   );
+}
+
+void _buscarRestaurante() {
+  String cat = categoria;
+  print(cat);
+  List rMenu = _obtenerDatos();
+}
+
+final firestoreInstance = FirebaseFirestore.instance;
+List _obtenerDatos() {
+  List datosR = [];
+  firestoreInstance.collection("Restaurante_Menu").get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      print(result.data());
+      datosR.add(result.data().values);
+      //print("DatosR");
+      print(datosR);
+    });
+  });
+  return datosR;
 }
