@@ -18,10 +18,10 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
   String valueChoose;
 
   List listItem = [
-    "Salchipapas",
-    "Perros",
-    "Pizzas",
-    "Desgranados",
+    "Salchipapa",
+    "Perro",
+    "Pizza",
+    "Sandwich",
     "Hamburguesa",
   ];
 
