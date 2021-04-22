@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantFood.dart';
 import 'package:f_202110_firebase_google_login/Seccion/Cart.dart';
 
+import 'RestaurantMenu.dart';
+
 /// This is the main application widget.
 
 /// This is the stateful widget that the main application instantiates.
@@ -64,8 +66,13 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                             height: 100,
                             child: Align(
                               alignment: Alignment(0.8, 0),
-                              child: Text(
-                                  " Nombre Restaurante \n\n Direccion: \n\n Tiempo: ##:## \n"),
+                              child: Text(" Nombre: " +
+                                  nombre +
+                                  " \n\n Direccion: " +
+                                  direccion +
+                                  " \n\n Tiempo: " +
+                                  tiempo.toString() +
+                                  " minutos \n"),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -79,7 +86,7 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                             width: 300,
                             height: 40,
                             child: Align(
-                              child: Text(" Perros "),
+                              child: Text(controlMenu),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
