@@ -1,6 +1,9 @@
+import 'package:f_202110_firebase_google_login/Seccion/RestaurantMenuFood.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
+
+import 'Restaurant.dart';
 
 class RestaurantFood extends StatefulWidget {
   RestaurantFood({Key key}) : super(key: key);
@@ -13,6 +16,12 @@ class _RestaurantFoodState extends State<RestaurantFood> {
   bool _pinned = true;
   bool _snap = false;
   bool _floating = false;
+  @override
+  void initState() {
+    super.initState();
+    //datosR.clear();
+    _obtenerDetalleCategoria();
+  }
 
 // [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
 // turn can be placed in a [Scaffold.body].
@@ -59,8 +68,10 @@ class _RestaurantFoodState extends State<RestaurantFood> {
                             height: 100,
                             child: Align(
                               alignment: Alignment(0.8, 0),
-                              child: Text(
-                                  " Salchipapa Sencilla \n\n Precio: 11.900"),
+                              child: Text(controlDetails +
+                                  " \n\nPrecio: " +
+                                  "COP " +
+                                  precio.toString()),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -86,8 +97,7 @@ class _RestaurantFoodState extends State<RestaurantFood> {
                             width: 300,
                             child: Align(
                               alignment: Alignment(-1, 0),
-                              child: Text(
-                                  "Rica salchipapa de pollo que lleva 125g de pollo, sachicha de pavo, lechuga y salsa...."),
+                              child: Text(descripcion),
                             ),
                             decoration:
                                 BoxDecoration(shape: BoxShape.rectangle),
@@ -129,4 +139,42 @@ class _RestaurantFoodState extends State<RestaurantFood> {
       ),
     );
   }
+}
+
+List detailsM = [];
+String descripcion = "";
+double precio = 0.0;
+List _obtenerDetalleCategoria() {
+  List restMenu = rMenu;
+  List dtMenu = [];
+  for (final x in restMenu) {
+    //print(x);
+    List menu = x.toString().split(",");
+
+    String detalle = menu[0].toString().split(" ").join("").split("(").join("");
+
+    if (detalle == controlDetails.split(" ").join("")) {
+      print(x);
+      dtMenu.add(menu[0].split("(").join(""));
+      String desc = "";
+      for (var i = 3; i < menu.length - 1; i++) {
+        if (i < menu.length - 2) {
+          desc += menu[i].toString() + ",";
+        } else {
+          if (i == menu.length - 2) {
+            desc += menu[i].toString();
+          }
+        }
+      }
+      descripcion = desc.substring(1);
+
+      precio =
+          double.parse(menu[menu.length - 1].toString().split(")").join(""));
+      print(precio);
+      print(descripcion);
+    }
+  }
+  dtMenu = dtMenu.toSet().toList();
+  detailsM = dtMenu;
+  print(dtMenu);
 }
