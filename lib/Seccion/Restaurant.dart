@@ -59,7 +59,7 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
                           SizedBox(
                             height: 10.0,
                           ),
-                          SizedBox(
+                          Container(
                               width: 300.0,
                               height: 150.0,
                               child: FlatButton(
@@ -76,6 +76,28 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
 
                                     control = text.toString();
                                   })),
+                          Container(
+                              // width: 300.0,
+                              // height: 30.0,
+                              color: Colors.white,
+                              child: new Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    IconButton(
+                                        icon: const Icon(
+                                          Icons.navigate_next,
+                                          color: Colors.black,
+                                        ),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          control = text.toString();
+                                          for (var i = 0; i < 2; i++) {
+                                            _obtenerDetalleRestaurante(control);
+                                          }
+                                          _pushPage(
+                                              context, RestaurantDetails());
+                                        }),
+                                  ])),
                         ],
                       ),
                     );
@@ -115,7 +137,7 @@ List restauranteId = [];
 String control = "";
 
 List _buscarRestaurante() {
-  String cat = categoria;
+  List cat = categories;
   print(cat);
 
   rMenu = _obtenerDatosMenu("Restaurante_Menu").toList();
@@ -128,7 +150,7 @@ List _buscarRestaurante() {
   for (final x in rest) {
     print(x);
     List r = x.toString().split(",");
-    String id = r[3].toString().substring(1, 2);
+    String id = r[3].toString().split(")").join("");
 
     print(id);
     idR.add(id);
@@ -150,11 +172,13 @@ List _buscarRestaurante() {
       // print(c0 + " = " + cat);
       // print(id1.toString() + " = " + id2.toString());
       if (id1 == id2) {
-        if (c0 == cat.toString()) {
-          print(id1);
-          print(c0);
-          restaurantes.add(id1);
-          print("........");
+        for (final c in cat) {
+          if (c0 == c.title.toString()) {
+            print(id1);
+            print(c0);
+            restaurantes.add(id1);
+            print("........");
+          }
         }
       }
     }
@@ -166,9 +190,10 @@ List _buscarRestaurante() {
   for (final x in rest) {
     print(x);
     List r = x.toString().split(",");
-    int id = int.parse(r[3].toString().substring(1, 2));
+    int id = int.parse(r[3].toString().split(")").join(""));
     for (var y = 0; y < restaurantes.length; y++) {
       int idRest = int.parse(restaurantes[y].toString());
+      print(idRest);
       if (id == idRest) {
         restaurante.add(r[0].toString().substring(1));
         restauranteIds.add(id);
@@ -209,4 +234,21 @@ List _obtenerDatosRestaurante(String tabla) {
   datosM1 = datosMenu.toList();
   datosMenu.clear();
   return datosM1;
+}
+
+String nombreD;
+String direccionD;
+double tiempoD;
+String descripcionD;
+void _obtenerDetalleRestaurante(String nombre) {
+  firestoreInstance
+      .collection("Restaurante_Details")
+      .where("Nombre", isEqualTo: nombre)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      print(result.data());
+      nombreD = result.get("Nombre");
+    });
+  });
 }

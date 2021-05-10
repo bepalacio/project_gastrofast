@@ -1,3 +1,4 @@
+import 'package:f_202110_firebase_google_login/Seccion/CartProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantFood.dart';
 import 'package:f_202110_firebase_google_login/Seccion/Cart.dart';
@@ -130,57 +131,6 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                                 ),
                               );
                             }).toList()),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa Sencilla'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa de pollo'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa de carne'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa suiza'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa Mixta'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //     width: 300,
-                            //     height: 100,
-                            //     child: FlatButton(
-                            //         child: Text('Salchipapa Vegetariana'),
-                            //         color: Color.fromRGBO(255, 255, 255, 100),
-                            //         onPressed: () =>
-                            //             _pushPage(context, RestaurantFood()))),
-                            // SizedBox(
-                            //   height: 15,
-                            // ),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 primary: Color.fromRGBO(
@@ -189,7 +139,8 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               ),
                               label: Text('Ver Carrito'),
                               icon: Icon(Icons.add_shopping_cart),
-                              onPressed: () => _pushPage(context, Cart()),
+                              onPressed: () =>
+                                  _pushPage(context, CartProduct()),
                             )
                           ],
                         ),

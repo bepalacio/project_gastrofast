@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Formularios/RegisterForm.dart';
 import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
+import 'package:f_202110_firebase_google_login/Seccion/CartProduct.dart';
+import 'package:f_202110_firebase_google_login/Seccion/RestaurantDetails.dart';
+import 'package:f_202110_firebase_google_login/Seccion/PaymentMethod.dart';
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
 import 'package:f_202110_firebase_google_login/Formularios/menuLateral.dart';
 import 'package:f_202110_firebase_google_login/Formularios/registerPage.dart';
@@ -22,6 +25,9 @@ class LoginPage extends StatefulWidget {
 
   _LoginPageState createState() => _LoginPageState();
 }
+
+String emaill = "";
+String passs = "";
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
@@ -47,70 +53,115 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void initState() {
+    _emailController = TextEditingController();
+    _passController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(''),
-        backgroundColor: Colors.orangeAccent,
-      ),
       resizeToAvoidBottomInset: false,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromRGBO(244, 202, 110, 100),
-              Color.fromRGBO(244, 202, 110, 100),
-            ],
-          ),
-        ),
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+        color: Color.fromRGBO(244, 202, 110, 100),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("GASTROFAST",
-                style: TextStyle(
-                    color: Color.fromRGBO(136, 255, 0, 100),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30)),
+            Container(
+              height: 150,
+              width: 400,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(245, 100, 90, 1),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  )),
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  SizedBox(height: 20),
+                  Text("GASTROFAST",
+                      style: TextStyle(
+                          color: Color.fromRGBO(136, 255, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30)),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 30,
+                      ),
+                      FlatButton(
+                        child: Text('Login'),
+                        color: Colors.transparent,
+                        textColor: Colors.black,
+                        onPressed: () => _pushPage(context, PayMethod()),
+                      ),
+                      Spacer(),
+                      FlatButton(
+                        child: Text('Registrarse'),
+                        color: Colors.transparent,
+                        textColor: Colors.black,
+                        onPressed: () => _pushPage(context, RegisterForm()),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
             SizedBox(
-              height: 15.0,
+              height: 20,
             ),
-            Row(
-              children: [
-                FlatButton(
-                  child: Text('Login'),
-                  color: Color.fromRGBO(245, 100, 90, 100),
-                  textColor: Colors.white,
-                  onPressed: () {},
-                ),
-                Spacer(),
-                FlatButton(
-                  child: Text('Registrarse'),
-                  color: Color.fromRGBO(245, 100, 90, 100),
-                  textColor: Colors.white,
-                  onPressed: () => _pushPage(context, RegisterForm()),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                  labelText: "Correo Electronico", icon: Icon(Icons.email)),
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-            TextField(
-              controller: _passController,
-              decoration: InputDecoration(
-                  labelText: "Contraseña", icon: Icon(Icons.vpn_key)),
-              obscureText: true,
+            Container(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Correo Electronico",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromRGBO(0, 0, 0, 100)),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: _emailController,
+                    /*
+                    decoration: InputDecoration(
+                        suffix: GestureDetector(
+                      child: Icon(Icons.access_alarm_outlined),
+                      onTap: () {
+                        _emailController.clear();
+                      },
+                    )),
+                    */
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Contraseña",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Color.fromRGBO(0, 0, 0, 100)),
+                      ),
+                    ],
+                  ),
+                  TextField(
+                    controller: _passController,
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               height: 30.0,
@@ -122,25 +173,42 @@ class _LoginPageState extends State<LoginPage> {
             ),
             FlatButton(
               child: Text("Iniciar Seccion"),
-              color: Color(0xFFF5645A),
+              color: Color.fromRGBO(245, 100, 90, 50),
               textColor: Colors.white,
               minWidth: 250,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                  side: BorderSide(color: Colors.red)),
+                borderRadius: BorderRadius.circular(20.0),
+              ),
               onPressed: () {
                 _login(context, _emailController.text, _passController.text);
               },
             ),
-            SignInButton(Buttons.Google, text: "Google", onPressed: () {
-              _signInWithGoogle(context);
-            }),
-            SignInButton(Buttons.Facebook,
-                text: "Facebook",
-                onPressed: () => _pushPage(context, GoogleCentral())),
-            SignInButton(Buttons.Twitter,
-                text: "Twitter",
-                onPressed: () => _pushPage(context, GoogleCentral()))
+            Container(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 20),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Image.asset("assets/images/facebook.png"),
+                    iconSize: 50,
+                    onPressed: () {},
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Image.asset("assets/images/google.png"),
+                    iconSize: 50,
+                    onPressed: () {
+                      _signInWithGoogle(context);
+                    },
+                  ),
+                  Spacer(),
+                  IconButton(
+                    icon: Image.asset("assets/images/Twitter.png"),
+                    iconSize: 50,
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
