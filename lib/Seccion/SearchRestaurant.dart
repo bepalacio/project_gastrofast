@@ -1,4 +1,6 @@
 import 'package:f_202110_firebase_google_login/Seccion/Restaurant.dart';
+import 'package:flutter_tags/flutter_tags.dart';
+import 'package:dropdownfield/dropdownfield.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -12,18 +14,28 @@ class SearchRestaurant extends StatefulWidget {
 }
 
 final firestoreInstance = FirebaseFirestore.instance;
-String categoria = "";
+List categories = [];
 
 class _SearchRestaurantState extends State<SearchRestaurant> {
   String valueChoose;
+  List tags = new List();
+  List<String> tagscompare = new List();
+  int count;
 
-  List listItem = [
-    "Salchipapa",
-    "Perro",
-    "Pizza",
-    "Sandwich",
-    "Hamburguesa",
-  ];
+  void initState() {
+    super.initState();
+    count = 0;
+    categories = [];
+    comida = [
+      "Pizza",
+      "Perro",
+      "Salchipapa",
+      "Pollo",
+      "Pescado",
+      "Arroz",
+      "Hamburguesa"
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,43 +78,67 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
                 SizedBox(
                   height: 15.0,
                 ),
-                DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.all(
-                          const Radius.circular(20.0),
-                        ),
-                      ),
-                    ),
-                    hint: Text("Select Item: "),
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 36,
-                    isExpanded: true,
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                    value: valueChoose,
-                    onChanged: (newValue) {
-                      setState(() {
-                        valueChoose = newValue;
-                        categoria = valueChoose;
-                      });
-                    },
-                    items: listItem.map((valueItem) {
-                      return DropdownMenuItem(
-                        value: valueItem,
-                        child: Text(valueItem),
-                      );
-                    }).toList()),
+                //--------//
+                //COMBOBOX//
+                //--------//
+                DropDownField(
+                  controller: foodselected,
+                  hintText: "Selecciona tu comida",
+                  enabled: true,
+                  items: comida,
+                  onValueChanged: (value) {
+                    bool s = false;
+                    setState(() {
+                      if (count == 0) {
+                        tagscompare.add(value);
+                        tags.add(Item(title: value));
+                        categories.add(Item(title: value));
+                        count = count + 1;
+                      } else {
+                        for (int i = 0; i < tagscompare.length; i++) {
+                          if (tagscompare[i] == value) {
+                            s = true;
+                          }
+                        }
+                        if (s) {
+                          //No agregar Item
+                        } else {
+                          tagscompare.add(value);
+                          tags.add(Item(title: value));
+                          categories.add(Item(title: value));
+                        }
+                      }
+                    });
+                  },
+                ),
                 SizedBox(
                   height: 15.0,
                 ),
-                SizedBox(
-                  width: 310.0,
-                  height: 200.0,
-                  child: const Card(),
+                Container(
+                  child: Tags(
+                    itemCount: tags.length,
+                    columns: 6,
+                    itemBuilder: (index) {
+                      final Item currentItem = tags[index];
+                      return ItemTags(
+                        index: index,
+                        title: currentItem.title,
+                        customData: currentItem.customData,
+                        textStyle: TextStyle(fontSize: 14),
+                        combine: ItemTagsCombine.withTextBefore,
+                        onPressed: (i) => print(i),
+                        onLongPressed: (i) => print(i),
+                        removeButton: ItemTagsRemoveButton(onRemoved: () {
+                          setState(() {
+                            tags.removeAt(index);
+                            tagscompare.removeAt(index);
+                            categories.removeAt(index);
+                          });
+                          return true;
+                        }),
+                      );
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 15.0,
@@ -144,8 +180,12 @@ class _SearchRestaurantState extends State<SearchRestaurant> {
   }
 }
 
+String selec_food = "";
 void _pushPage(BuildContext context, Widget page) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
   );
 }
+
+final foodselected = TextEditingController();
+List<String> comida = [];

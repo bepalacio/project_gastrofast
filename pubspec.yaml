@@ -32,6 +32,10 @@ dependencies:
   prompt_dialog: ^1.0.0
   figma: ^2.0.3
   path_drawing: ^0.4.1
+  flutter_tags: "^0.4.9+1"
+  dropdownfield: ^1.0.3
+  favorite_button: ^0.0.4
+  group_button: ^2.1.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -54,7 +58,14 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/
+    - assets/Imagenes/Nequi.jpg
+    - assets/Imagenes/NequiLogo.png
+    - assets/images/correo.png
+    - assets/images/facebook.png
+    - assets/images/google_icon.png
+    - assets/images/google.png
+    - assets/images/logo_app.png
+    - assets/images/Twitter.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

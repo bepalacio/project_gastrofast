@@ -13,7 +13,7 @@ class _RestaurantMaps extends State<RestaurantMaps> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Ubicacion de restaurantes'),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Color.fromRGBO(245, 100, 90, 50),
       ),
     );
   }

@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:favorite_button/favorite_button.dart';
+
+import 'Restaurant.dart';
 
 /// This is the main application widget.
 
@@ -18,6 +22,13 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
 
 // [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
 // turn can be placed in a [Scaffold.body].
+
+  @override
+  void initState() {
+    super.initState();
+    //datosR.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,8 +73,9 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             height: 100,
                             child: Align(
                               alignment: Alignment(0.8, 0),
-                              child: Text(
-                                  " Nombre Restaurante \n\n Direccion: \n\n Tiempo: ##:## \n"),
+                              child: Text(" Nombre Restaurante: " +
+                                  nombreD +
+                                  " \n\n Direccion: \n\n Tiempo: ##:## \n"),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -86,7 +98,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             child: Align(
                               alignment: Alignment(-1, -1),
                               child: Text(
-                                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? "),
+                                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa"),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -120,7 +132,20 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             child: Text('Whatsapp',
                                 style: TextStyle(color: Colors.white)),
                           ),
-                          Container()
+                          Container(child: FavoriteButton(
+                            valueChanged: (_isFavorite) {
+                              print('Is Favorite $_isFavorite)');
+                            },
+                          )),
+                          Container(
+                            child: TextButton.icon(
+                              onPressed: () {
+                                // Respond to button press
+                              },
+                              icon: Icon(Icons.add, size: 18),
+                              label: Text("Descargar Menu"),
+                            ),
+                          )
                         ],
                       ),
                     ),

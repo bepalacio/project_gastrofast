@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:f_202110_firebase_google_login/Seccion/CartProduct.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantMenuFood.dart';
 import 'package:f_202110_firebase_google_login/Seccion/Cart.dart';
 import 'package:flutter/material.dart';
@@ -123,58 +122,6 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                               ),
                             );
                           }).toList()),
-                          // SizedBox(
-                          //     width: 300.0,
-                          //     height: 100.0,
-                          //     child: FlatButton(
-                          //         child: Text('Salchipapas'),
-                          //         color: Color.fromRGBO(255, 214, 0, 100),
-                          //         onPressed: () => _pushPage(
-                          //             context, RestaurantMenuFood()))),
-                          // SizedBox(
-                          //   width: 300.0,
-                          //   height: 15.0,
-                          // ),
-                          // SizedBox(
-                          //     width: 300.0,
-                          //     height: 100.0,
-                          //     child: FlatButton(
-                          //         child: Text('Perros'),
-                          //         color: Color.fromRGBO(237, 118, 118, 100),
-                          //         onPressed: () => null)),
-                          // SizedBox(
-                          //   width: 300.0,
-                          //   height: 15.0,
-                          // ),
-                          // SizedBox(
-                          //     width: 300.0,
-                          //     height: 100.0,
-                          //     child: FlatButton(
-                          //         child: Text('Pizzas'),
-                          //         color: Color.fromRGBO(255, 214, 0, 100),
-                          //         onPressed: () => null)),
-                          // SizedBox(
-                          //   width: 300.0,
-                          //   height: 15.0,
-                          // ),
-                          // SizedBox(
-                          //     width: 300.0,
-                          //     height: 100.0,
-                          //     child: FlatButton(
-                          //         child: Text('Desgranados'),
-                          //         color: Color.fromRGBO(237, 118, 118, 100),
-                          //         onPressed: () => null)),
-                          // SizedBox(
-                          //   width: 300.0,
-                          //   height: 15.0,
-                          // ),
-                          // SizedBox(
-                          //     width: 300.0,
-                          //     height: 100.0,
-                          //     child: FlatButton(
-                          //         child: Text('Hamburguesa'),
-                          //         color: Color.fromRGBO(255, 214, 0, 100),
-                          //         onPressed: () => null)),
                           SizedBox(
                             height: 10.0,
                           ),
@@ -186,7 +133,7 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                             ),
                             label: Text('Ver Carrito'),
                             icon: Icon(Icons.add_shopping_cart),
-                            onPressed: () => _pushPage(context, Cart()),
+                            onPressed: () => _pushPage(context, CartProduct()),
                           )
                         ],
                       ),

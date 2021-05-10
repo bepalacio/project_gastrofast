@@ -26,109 +26,138 @@ class _RegisterFormState extends State<RegisterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(widget.titulo),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.redAccent,
       ),
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Color.fromRGBO(244, 202, 110, 10),
       body: Form(
         key: _formKey,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("GASTROFAST",
-                style: TextStyle(
-                    color: Color.fromRGBO(136, 255, 0, 100),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30)),
-            SizedBox(
-              height: 15.0,
-            ),
-            TextFormField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                  labelText: "Nombre de usuario",
-                  icon: Icon(Icons.supervised_user_circle)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese un nombre de usuario';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _passController,
-              obscureText: true,
-              decoration: InputDecoration(
-                  labelText: "Contraseña", icon: Icon(Icons.vpn_key)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese una contraseña';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _confirmPassController,
-              obscureText: true,
-              decoration: InputDecoration(
-                  labelText: "Confirmar contraseña", icon: Icon(Icons.vpn_key)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor validar contraseña';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _nombreController,
-              decoration: InputDecoration(
-                  labelText: "Nombre completo",
-                  icon: Icon(Icons.supervised_user_circle_outlined)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese su nombre completo';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _telefonoController,
-              decoration: InputDecoration(
-                  labelText: "Telefono",
-                  icon: Icon(Icons.supervised_user_circle_outlined)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese su telefono';
-                }
-              },
-            ),
-            TextFormField(
-              controller: _emailController,
-              decoration:
-                  InputDecoration(labelText: "Correo", icon: Icon(Icons.email)),
-              validator: (String value) {
-                if (value.isEmpty) {
-                  return 'Por favor ingrese un correo';
-                }
-              },
-            ),
-            SizedBox(
-              height: 30.0,
+            Container(
+              height: 100,
+              width: 500,
+              decoration: BoxDecoration(
+                  color: Color.fromRGBO(245, 100, 90, 1),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  )),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text("GASTROFAST",
+                      style: TextStyle(
+                          color: Color.fromRGBO(136, 255, 0, 1),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30)),
+                  SizedBox(height: 20),
+                ],
+              ),
             ),
             Container(
-              alignment: Alignment.center,
-              child: FlatButton(
-                  child: Text('Registrarse'),
-                  color: Color.fromRGBO(245, 100, 90, 100),
-                  textColor: Colors.white,
-                  minWidth: 250,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 0),
+              color: Color.fromRGBO(244, 202, 110, 100),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15.0,
                   ),
-                  onPressed: () {
-                    _signup(
-                        context, _emailController.text, _passController.text);
-                    //dispose();
-                  }),
+                  TextFormField(
+                    controller: _usernameController,
+                    decoration: InputDecoration(
+                        labelText: "Nombre de usuario",
+                        icon: Icon(Icons.supervised_user_circle)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor ingrese un nombre de usuario';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _passController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        labelText: "Contraseña", icon: Icon(Icons.vpn_key)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor ingrese una contraseña';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _confirmPassController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        labelText: "Confirmar contraseña",
+                        icon: Icon(Icons.vpn_key)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor validar contraseña';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _nombreController,
+                    decoration: InputDecoration(
+                        labelText: "Nombre completo",
+                        icon: Icon(Icons.supervised_user_circle_outlined)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor ingrese su nombre completo';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _telefonoController,
+                    decoration: InputDecoration(
+                        labelText: "Telefono",
+                        icon: Icon(Icons.supervised_user_circle_outlined)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor ingrese su telefono';
+                      }
+                    },
+                  ),
+                  TextFormField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                        labelText: "Correo", icon: Icon(Icons.email)),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return 'Por favor ingrese un correo';
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: FlatButton(
+                        child: Text('Registrarse'),
+                        color: Color.fromRGBO(245, 100, 90, 1),
+                        textColor: Colors.white,
+                        minWidth: 250,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        onPressed: () {
+                          _signup(context, _emailController.text,
+                              _passController.text);
+                          //dispose();
+                        }),
+                  ),
+                  SizedBox(
+                    height: 65,
+                  )
+                ],
+              ),
             ),
+
             // Container(
             //   alignment: Alignment.center,
             //   child: Text(success == null
