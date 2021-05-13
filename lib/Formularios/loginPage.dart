@@ -158,6 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   TextField(
+                    obscureText: true,
                     controller: _passController,
                   ),
                 ],
