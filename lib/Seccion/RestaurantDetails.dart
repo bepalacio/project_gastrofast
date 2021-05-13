@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
+import 'package:f_202110_firebase_google_login/Seccion/Restaurant.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_button/favorite_button.dart';
-
-import 'Restaurant.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// This is the main application widget.
 
@@ -14,23 +15,39 @@ class RestaurantDetails extends StatefulWidget {
   _RestaurantDetailsState createState() => _RestaurantDetailsState();
 }
 
+Timer _timer;
+
 /// This is the private State class that goes with MyStatefulWidget.
 class _RestaurantDetailsState extends State<RestaurantDetails> {
   bool _pinned = true;
   bool _snap = false;
   bool _floating = false;
 
-// [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
-// turn can be placed in a [Scaffold.body].
-
   @override
   void initState() {
     super.initState();
-    //datosR.clear();
+
+    _initializeTimer();
+  }
+
+  void _initializeTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 1), () => _handleInactivity());
+  }
+
+  void _handleInactivity() {
+    _timer?.cancel();
+    _timer = null;
+
+    print("Nombre restaurante: " + nombreD);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("build");
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -73,9 +90,13 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             height: 100,
                             child: Align(
                               alignment: Alignment(0.8, 0),
-                              child: Text(" Nombre Restaurante: " +
+                              child: Text(" Nombre Restaurante:" +
                                   nombreD +
-                                  " \n\n Direccion: \n\n Tiempo: ##:## \n"),
+                                  " \n\n Direccion: " +
+                                  direccionD +
+                                  "\n\n Tiempo: " +
+                                  tiempoD.toString() +
+                                  " minutos \n"),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -97,8 +118,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             width: 300,
                             child: Align(
                               alignment: Alignment(-1, -1),
-                              child: Text(
-                                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa"),
+                              child: Text(descripcionD),
                             ),
                             decoration: BoxDecoration(
                                 shape: BoxShape.rectangle, color: Colors.white),
@@ -132,20 +152,38 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                             child: Text('Whatsapp',
                                 style: TextStyle(color: Colors.white)),
                           ),
-                          Container(child: FavoriteButton(
-                            valueChanged: (_isFavorite) {
-                              print('Is Favorite $_isFavorite)');
-                            },
-                          )),
                           Container(
-                            child: TextButton.icon(
-                              onPressed: () {
-                                // Respond to button press
-                              },
-                              icon: Icon(Icons.add, size: 18),
-                              label: Text("Descargar Menu"),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FavoriteButton(
+                                  valueChanged: (_isFavorite) {
+                                    print('Is Favorite $_isFavorite)');
+                                  },
+                                ),
+                                Spacer(),
+                                Container(
+                                  child: TextButton.icon(
+                                    onPressed: () {
+                                      print(linkMenu);
+                                      String url = linkMenu;
+                                      _launchURL(url);
+                                    },
+                                    icon: Icon(
+                                      Icons.cloud_download_outlined,
+                                      size: 18,
+                                      color: Colors.blueAccent,
+                                    ),
+                                    label: Text(
+                                      "Descargar Menu",
+                                      style:
+                                          TextStyle(color: Colors.blueAccent),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -158,5 +196,13 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
         ],
       ),
     );
+  }
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

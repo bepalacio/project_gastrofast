@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantDetails.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantMenu.dart';
@@ -12,12 +14,29 @@ class RestaurantEncounter extends StatefulWidget {
   _RestaurantEncounterState createState() => _RestaurantEncounterState();
 }
 
+Timer _timer;
+
 class _RestaurantEncounterState extends State<RestaurantEncounter> {
   @override
   void initState() {
     super.initState();
     //datosR.clear();
     _buscarRestaurante();
+  }
+
+  void _initializeTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 2), () => _handleInactivity());
+  }
+
+  void _handleInactivity() {
+    _timer?.cancel();
+    _timer = null;
+    _pushPage(context, RestaurantDetails());
+    print("Nombre restaurante: " + nombreD);
   }
 
   @override
@@ -90,12 +109,15 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
                                         ),
                                         color: Colors.white,
                                         onPressed: () {
-                                          control = text.toString();
-                                          for (var i = 0; i < 2; i++) {
+                                          setState(() {
+                                            control = text.toString();
                                             _obtenerDetalleRestaurante(control);
-                                          }
-                                          _pushPage(
-                                              context, RestaurantDetails());
+
+                                            print("detalle Nombre:" + nombreD);
+                                            _initializeTimer();
+
+                                            print("control: " + control);
+                                          });
                                         }),
                                   ])),
                         ],
@@ -124,8 +146,8 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
   }
 }
 
-void _pushPage(BuildContext context, Widget page) {
-  Navigator.of(context).push(
+void _pushPage(BuildContext context, Widget page) async {
+  await Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
   );
 }
@@ -238,10 +260,12 @@ List _obtenerDatosRestaurante(String tabla) {
 
 String nombreD;
 String direccionD;
-double tiempoD;
+int tiempoD;
+int ident;
 String descripcionD;
-void _obtenerDetalleRestaurante(String nombre) {
-  firestoreInstance
+
+void _obtenerDetalleRestaurante(String nombre) async {
+  await firestoreInstance
       .collection("Restaurante_Details")
       .where("Nombre", isEqualTo: nombre)
       .get()
@@ -249,6 +273,32 @@ void _obtenerDetalleRestaurante(String nombre) {
     querySnapshot.docs.forEach((result) {
       print(result.data());
       nombreD = result.get("Nombre");
+      direccionD = result.get("Direccion");
+      tiempoD = result.get("Tiempo de llegada");
+      descripcionD = result.get("Descripcion");
+      ident = result.get("ID");
     });
+    nombreD = nombreD;
+    print("Nombre D:" + nombreD);
+    print("ID:" + ident.toString());
   });
+  _obtenerMenuRestaurante(ident);
+  print("Nombre D1:" + nombreD);
+}
+
+String linkMenu;
+
+void _obtenerMenuRestaurante(int id) async {
+  await firestoreInstance
+      .collection("Restaurante_DMenu")
+      .where("ID", isEqualTo: id)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      print(result.data());
+      linkMenu = result.get("Link");
+    });
+    print("Link Menu: " + linkMenu);
+  });
+  print("Link Menu: " + linkMenu);
 }

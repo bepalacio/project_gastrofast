@@ -23,8 +23,6 @@ class _RestaurantFoodState extends State<RestaurantFood> {
     _obtenerDetalleCategoria();
   }
 
-// [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
-// turn can be placed in a [Scaffold.body].
   @override
   Widget build(BuildContext context) {
     return Scaffold(
