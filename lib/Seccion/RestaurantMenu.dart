@@ -130,24 +130,46 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                                   SizedBox(
                                     height: 10.0,
                                   ),
-                                  SizedBox(
+                                  Container(
+                                      padding:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
                                       width: 300.0,
                                       height: 100.0,
-                                      child: FlatButton(
-                                          child: Text(
-                                            text.toString(),
-                                            style: TextStyle(
-                                                fontSize: 18.0,
-                                                color: Colors.white),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 80,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.yellow[100],
+                                              border: Border.all(
+                                                color: Colors.amber,
+                                                width: 2,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                            ),
                                           ),
-                                          color:
-                                              Color.fromRGBO(245, 100, 90, 50),
-                                          onPressed: () {
-                                            _pushPage(
-                                                context, RestaurantMenuFood());
+                                          FlatButton(
+                                              child: Text(
+                                                text.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 18.0,
+                                                    color: Colors.redAccent),
+                                              ),
+                                              color: Colors.white,
+                                              onPressed: () {
+                                                _pushPage(context,
+                                                    RestaurantMenuFood());
 
-                                            controlMenu = text.toString();
-                                          })),
+                                                controlMenu = text.toString();
+                                              })
+                                        ],
+                                      )),
                                 ],
                               ),
                             );

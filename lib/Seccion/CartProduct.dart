@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Seccion/PaymentMethod.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +11,30 @@ class CartProduct extends StatefulWidget {
   _CartProductState createState() => _CartProductState();
 }
 
+Timer _timer;
+
 class _CartProductState extends State<CartProduct> {
+  @override
+  void initState() {
+    super.initState();
+    //datosR.clear();
+    _obtenerDatosCarrito();
+    _initializeTimer();
+  }
+
+  void _initializeTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 2), () => _handleInactivity());
+  }
+
+  void _handleInactivity() {
+    _timer?.cancel();
+    _timer = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,9 +147,7 @@ void _pushPage(BuildContext context, Widget page) {
 }
 
 class CartItem extends StatelessWidget {
-  const CartItem({
-    Key key,
-  }) : super(key: key);
+  const CartItem({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +180,7 @@ class CartItem extends StatelessWidget {
               children: <Widget>[
                 Container(
                   child: Text(
-                    "Salchipapa de pollo",
+                    "Comida",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -211,4 +235,28 @@ class CartItem extends StatelessWidget {
       ),
     );
   }
+}
+
+final firestoreInstance = FirebaseFirestore.instance;
+List carro = [];
+List carro1 = [];
+void _obtenerDatosCarrito() {
+  firestoreInstance.collection("Carrito").get().then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      String restaurante = result.get("Restaurante");
+      String comida = result.get("Comida");
+      int cantidad = result.get("Cantidad");
+      List data = [];
+      data.add(restaurante);
+      data.add(comida);
+      data.add(cantidad);
+      print("data");
+      print(data);
+      carro.add(data);
+      // print(datosR);
+    });
+  });
+  carro1 = carro.toList();
+  print(carro1);
+  carro.clear();
 }

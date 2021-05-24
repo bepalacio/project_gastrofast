@@ -48,16 +48,6 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
                   return Container(
-                    // decoration: BoxDecoration(
-                    //   gradient: LinearGradient(
-                    //     begin: Alignment.topCenter,
-                    //     end: Alignment.bottomCenter,
-                    //     colors: [
-                    //       Color.fromRGBO(244, 202, 110, 100),
-                    //       Color.fromRGBO(244, 202, 110, 100),
-                    //     ],
-                    //   ),
-                    // ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Container(
@@ -172,13 +162,12 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                                                     image:
                                                         const DecorationImage(
                                                       image: AssetImage(
-                                                          "assets/Comida/pizza.png"),
+                                                          "assets/images/logo_app.png"),
                                                       fit: BoxFit.cover,
                                                     ),
                                                     border: Border.all(
-                                                      color: Color.fromRGBO(
-                                                          229, 147, 40, 1),
-                                                      width: 2,
+                                                      color: Colors.white,
+                                                      width: 0,
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -260,6 +249,26 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
   }
 }
 
+int indice;
+int cont = 0;
+String _mostrarImagen() {
+  List restMenu = rMenu;
+  List imagenes = [];
+  for (final x in restMenu) {
+    //print(x);
+    List menu = x.toString().split(",");
+
+    int ids = int.parse(menu[2].toString().split(" ").join(""));
+    if (ids == id) {
+      imagenes.add(menu[menu.length - 2].split(" ").join(""));
+    }
+  }
+  imagenes = imagenes.toSet().toList();
+  print(imagenes);
+  cont++;
+  return imagenes[cont];
+}
+
 void _pushPage(BuildContext context, Widget page) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
@@ -271,13 +280,14 @@ String controlDetails = "";
 List _obtenerDatosCategoria() {
   List restMenu = rMenu;
   List dMenu = [];
+  List iMenu = [];
   for (final x in restMenu) {
     //print(x);
     List menu = x.toString().split(",");
 
     String categoria = menu[1].toString().split(" ").join("");
     if (categoria == controlMenu) {
-      dMenu.add(menu[0].split("(").join(""));
+      dMenu.add(menu[0].split("[").join(""));
     }
   }
   dMenu = dMenu.toSet().toList();
