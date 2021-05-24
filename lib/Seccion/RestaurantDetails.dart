@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Seccion/Restaurant.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'RestaurantMenu.dart';
 
 /// This is the main application widget.
 
@@ -26,7 +30,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
   @override
   void initState() {
     super.initState();
-
+    _validarFavorito();
     _initializeTimer();
   }
 
@@ -41,7 +45,6 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
   void _handleInactivity() {
     _timer?.cancel();
     _timer = null;
-
     print("Nombre restaurante: " + nombreD);
   }
 
@@ -157,9 +160,10 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FavoriteButton(
-                                  valueChanged: (_isFavorite) {
-                                    print('Is Favorite $_isFavorite)');
-                                  },
+                                  // valueChanged: (_isFavorite) {
+                                  //   print('Is Favorite $_isFavorite');
+                                  // },
+                                  isFavorite: fav,
                                 ),
                                 Spacer(),
                                 Container(
@@ -197,6 +201,50 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
       ),
     );
   }
+}
+
+// int id_rest;
+
+// final firestoreInstance = FirebaseFirestore.instance;
+// void _obtenerDatosRest() async {
+//   print("Nombre: ..." + nombreD);
+//   await firestoreInstance
+//       .collection("Restaurantes")
+//       .where("Nombre", isEqualTo: nombreD)
+//       .get()
+//       .then((querySnapshot) {
+//     querySnapshot.docs.forEach((result) {
+//       id_rest = result.get("ID");
+//       print(id_rest);
+//     });
+//   });
+// }
+
+// int rest_id;
+// bool fav = false;
+// var firebaseUser = FirebaseAuth.instance.currentUser;
+// void _obtenerDatosFavoritos() async {
+//   print("UID: " + firebaseUser.uid);
+//   await firestoreInstance
+//       .collection("Favoritos")
+//       .where("ID_usuario", isEqualTo: firebaseUser.uid.toString())
+//       .get()
+//       .then((querySnapshot) {
+//     querySnapshot.docs.forEach((result) {
+//       rest_id = result.get("ID_restaurante");
+//     });
+//   });
+// }
+
+void _validarFavorito() {
+  print("id_rest: " + id_rest.toString());
+  print("rest_id: " + rest_id.toString());
+  if (id_rest == rest_id) {
+    fav = true;
+  } else {
+    fav = false;
+  }
+  print(fav);
 }
 
 _launchURL(String url) async {
