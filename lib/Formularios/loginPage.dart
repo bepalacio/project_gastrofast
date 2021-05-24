@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text('Login'),
                         color: Colors.transparent,
                         textColor: Colors.black,
-                        onPressed: () => _pushPage(context, PayMethod()),
+                        onPressed: () => _pushPage(context, LoginPage()),
                       ),
                       Spacer(),
                       FlatButton(

@@ -64,29 +64,59 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: Column(
                         children: <Widget>[
-                          Text("Menu del restaurante",
+                          Text("Categorias de Comidas",
                               style:
                                   TextStyle(color: Colors.black, fontSize: 15)),
                           SizedBox(
                             width: 300.0,
                             height: 15.0,
                           ),
-                          Container(
-                            width: 300,
-                            height: 100,
-                            child: Align(
-                              alignment: Alignment(0.8, 0),
-                              child: Text(" Nombre: " +
-                                  nombre +
-                                  " \n\n Direccion: " +
-                                  direccion +
-                                  " \n\n Tiempo: " +
-                                  tiempo.toString() +
-                                  " minutos \n"),
-                            ),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.rectangle, color: Colors.white),
-                            padding: EdgeInsets.all(10.0),
+                          Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 100,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                        "assets/images/logo_app.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  border: Border.all(
+                                    color: Color.fromRGBO(229, 147, 40, 1),
+                                    width: 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                      child: Align(
+                                          alignment: Alignment(0.8, 0),
+                                          child: Text(
+                                            " Nombre: " +
+                                                nombre +
+                                                " \n\n Direccion: " +
+                                                direccion +
+                                                " \n\n Tiempo: " +
+                                                tiempo.toString() +
+                                                " minutos ",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12),
+                                          ))),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 300.0,
+                            height: 15.0,
                           ),
                           SizedBox(
                             width: 300.0,

@@ -114,8 +114,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   TextFormField(
                     controller: _telefonoController,
                     decoration: InputDecoration(
-                        labelText: "Telefono",
-                        icon: Icon(Icons.supervised_user_circle_outlined)),
+                        labelText: "Telefono", icon: Icon(Icons.phone)),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return 'Por favor ingrese su telefono';
