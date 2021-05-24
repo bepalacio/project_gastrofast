@@ -71,66 +71,168 @@ class _RestaurantMenuFoodState extends State<RestaurantMenuFood> {
                               width: 300.0,
                               height: 15.0,
                             ),
-                            Container(
-                              width: 300,
-                              height: 100,
-                              child: Align(
-                                alignment: Alignment(0.8, 0),
-                                child: Text(" Nombre: " +
-                                    nombre +
-                                    " \n\n Direccion: " +
-                                    direccion +
-                                    " \n\n Tiempo: " +
-                                    tiempo.toString() +
-                                    " minutos \n"),
-                              ),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  color: Colors.white),
-                              padding: EdgeInsets.all(10.0),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/logo_app.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    border: Border.all(
+                                      color: Color.fromRGBO(229, 147, 40, 1),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                        child: Align(
+                                            alignment: Alignment(0.8, 0),
+                                            child: Text(
+                                              " Nombre: " +
+                                                  nombre +
+                                                  " \n\n Direccion: " +
+                                                  direccion +
+                                                  " \n\n Tiempo: " +
+                                                  tiempo.toString() +
+                                                  " minutos",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12),
+                                            ))),
+                                  ],
+                                ),
+                              ],
                             ),
                             SizedBox(
-                              width: 300.0,
+                              width: 400.0,
                               height: 15.0,
                             ),
                             Container(
-                              width: 300,
-                              height: 40,
+                              width: 400,
+                              height: 60,
                               child: Align(
-                                child: Text(controlMenu),
+                                child: Text(
+                                  controlMenu,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
                               ),
                               decoration: BoxDecoration(
                                   shape: BoxShape.rectangle,
                                   color: Colors.white),
                               padding: EdgeInsets.all(10.0),
                             ),
-                            Column(
-                                children: datosMenu.map((text) {
-                              return SizedBox(
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                        width: 300.0,
-                                        height: 100.0,
-                                        child: FlatButton(
-                                            child: Text(
-                                              text.toString(),
-                                              style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  color: Colors.black),
+                            Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(0),
+                              ),
+                              child: Column(
+                                  children: datosMenu.map((text) {
+                                return SizedBox(
+                                  child: FlatButton(
+                                      child: Column(
+                                        children: <Widget>[
+                                          Container(
+                                            width: 500,
+                                            padding: EdgeInsets.only(
+                                                left: 5,
+                                                right: 20,
+                                                top: 10,
+                                                bottom: 10),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Color.fromRGBO(
+                                                    255, 150, 136, 1),
+                                                width: 4,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 100),
-                                            onPressed: () {
-                                              _pushPage(
-                                                  context, RestaurantFood());
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: 40,
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    image:
+                                                        const DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/Comida/pizza.png"),
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    border: Border.all(
+                                                      color: Color.fromRGBO(
+                                                          229, 147, 40, 1),
+                                                      width: 2,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Row(
+                                                  children: <Widget>[
+                                                    Container(
+                                                      child: RichText(
+                                                        text: new TextSpan(
+                                                          text: '\n',
+                                                          // Note: Styles for TextSpans must be explicitly defined.
+                                                          // Child text spans will inherit styles from parent
+                                                          style: new TextStyle(
+                                                            fontSize: 12.0,
+                                                            color: Colors.black,
+                                                          ),
+                                                          children: <TextSpan>[
+                                                            new TextSpan(
+                                                                text:
+                                                                    text.toString() +
+                                                                        '\n',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                        ],
+                                      ),
+                                      onPressed: () {
+                                        _pushPage(context, RestaurantFood());
 
-                                              controlDetails = text.toString();
-                                            })),
-                                  ],
-                                ),
-                              );
-                            }).toList()),
+                                        controlDetails = text.toString();
+                                      }),
+                                );
+                              }).toList()),
+                            ),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
                                 primary: Color.fromRGBO(

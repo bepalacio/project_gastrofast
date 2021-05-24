@@ -69,7 +69,7 @@ class Interface_Entrada extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 60),
+              SizedBox(height: 30),
               TextButton(
                   onPressed: () => _pushPage(context, Perfil()),
                   child: Row(
@@ -185,7 +185,7 @@ class Interface_Entrada extends StatelessWidget {
                 indent: 35,
                 endIndent: 120,
               ),
-              SizedBox(height: 265),
+              SizedBox(height: 7),
               TextButton(
                   onPressed: () {
                     if (loginp.sw1 == true) {
