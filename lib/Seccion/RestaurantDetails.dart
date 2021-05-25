@@ -31,7 +31,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
   void initState() {
     super.initState();
     _validarFavorito();
-    _initializeTimer();
+    _obtenerDatosFavoritos();
   }
 
   void _initializeTimer() {
@@ -42,10 +42,28 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
     _timer = Timer(const Duration(seconds: 1), () => _handleInactivity());
   }
 
+  void _initializeTimer1() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 1), () => _handleInactivity1());
+  }
+
   void _handleInactivity() {
     _timer?.cancel();
     _timer = null;
-    print("Nombre restaurante: " + nombreD);
+    _obtenerDatosRest();
+
+    _initializeTimer1();
+    // _pushPage(context, RestaurantDetails());
+    // print("Nombre restaurante: " + nombreD);
+  }
+
+  void _handleInactivity1() {
+    _timer?.cancel();
+    _timer = null;
+    _obtenerDatosFavorito();
   }
 
   @override
@@ -160,10 +178,20 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FavoriteButton(
-                                  // valueChanged: (_isFavorite) {
-                                  //   print('Is Favorite $_isFavorite');
-                                  // },
                                   isFavorite: fav,
+                                  valueChanged: (_isFavorite) {
+                                    if (_isFavorite == false) {
+                                      _eliminarFavorito();
+                                      _initializeTimer();
+                                      id_rest = 0;
+                                      rest_id = 0;
+                                    } else {
+                                      _agregarFavorito();
+                                      _initializeTimer();
+                                      _obtenerDatosFavoritos();
+                                    }
+                                    print('Is Favorite $_isFavorite');
+                                  },
                                 ),
                                 Spacer(),
                                 Container(
@@ -203,38 +231,40 @@ class _RestaurantDetailsState extends State<RestaurantDetails> {
   }
 }
 
-// int id_rest;
+final firestoreInstance = FirebaseFirestore.instance;
 
-// final firestoreInstance = FirebaseFirestore.instance;
-// void _obtenerDatosRest() async {
-//   print("Nombre: ..." + nombreD);
-//   await firestoreInstance
-//       .collection("Restaurantes")
-//       .where("Nombre", isEqualTo: nombreD)
-//       .get()
-//       .then((querySnapshot) {
-//     querySnapshot.docs.forEach((result) {
-//       id_rest = result.get("ID");
-//       print(id_rest);
-//     });
-//   });
-// }
+void _eliminarFavorito() {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  firestoreInstance.collection("Favoritos").doc(uidF).delete().then((_) {
+    print("Eliminado!");
+  });
+}
 
-// int rest_id;
-// bool fav = false;
-// var firebaseUser = FirebaseAuth.instance.currentUser;
-// void _obtenerDatosFavoritos() async {
-//   print("UID: " + firebaseUser.uid);
-//   await firestoreInstance
-//       .collection("Favoritos")
-//       .where("ID_usuario", isEqualTo: firebaseUser.uid.toString())
-//       .get()
-//       .then((querySnapshot) {
-//     querySnapshot.docs.forEach((result) {
-//       rest_id = result.get("ID_restaurante");
-//     });
-//   });
-// }
+void _agregarFavorito() {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  firestoreInstance.collection("Favoritos").add({
+    "ID_restaurante": id_rest,
+    "ID_usuario": firebaseUser.uid,
+  }).then((value) {
+    print("Agregado a favorito");
+  });
+}
+
+String uidF;
+void _obtenerDatosFavoritos() async {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+
+  await firestoreInstance
+      .collection("Favoritos")
+      .where("ID_restaurante", isEqualTo: id_rest)
+      .where("ID_usuario", isEqualTo: firebaseUser.uid)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      uidF = result.id;
+    });
+  });
+}
 
 void _validarFavorito() {
   print("id_rest: " + id_rest.toString());
@@ -245,6 +275,40 @@ void _validarFavorito() {
     fav = false;
   }
   print(fav);
+}
+
+int id_rest;
+
+void _obtenerDatosRest() async {
+  print("Nombre: ..." + nombreD);
+  await firestoreInstance
+      .collection("Restaurantes")
+      .where("Nombre", isEqualTo: nombreD)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      id_rest = result.get("ID");
+      print(id_rest);
+    });
+  });
+}
+
+int rest_id;
+bool fav = false;
+void _obtenerDatosFavorito() async {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  print("UID: " + firebaseUser.uid);
+  await firestoreInstance
+      .collection("Favoritos")
+      .where("ID_usuario", isEqualTo: firebaseUser.uid.toString())
+      .where("ID_restaurante", isEqualTo: id_rest)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      rest_id = result.get("ID_restaurante");
+      print("rest: " + rest_id.toString());
+    });
+  });
 }
 
 _launchURL(String url) async {

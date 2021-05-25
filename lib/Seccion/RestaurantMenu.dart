@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Seccion/CartProduct.dart';
 import 'package:f_202110_firebase_google_login/Seccion/RestaurantMenuFood.dart';
 import 'package:f_202110_firebase_google_login/Seccion/Cart.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Restaurant.dart';
@@ -16,6 +19,8 @@ class RestaurantMenu extends StatefulWidget {
   _RestaurantMenuState createState() => _RestaurantMenuState();
 }
 
+Timer _timer;
+
 /// This is the private State class that goes with MyStatefulWidget.
 class _RestaurantMenuState extends State<RestaurantMenu> {
   bool _pinned = true;
@@ -28,6 +33,35 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     //datosR.clear();
     _obtenerDatosRestaurante();
     _obtenerDatosMenu();
+  }
+
+  void _initializeTimer1() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 2), () => _handleInactivity1());
+  }
+
+  void _handleInactivity1() {
+    _timer?.cancel();
+    _timer = null;
+    _pushPage(context, CartProduct());
+  }
+
+  void _initializeTimer() {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer = Timer(const Duration(seconds: 2), () => _handleInactivity());
+  }
+
+  void _handleInactivity() {
+    _timer?.cancel();
+    _timer = null;
+    _addBody();
+    _initializeTimer1();
   }
 
 // [SliverAppBar]s are typically used in [CustomScrollView.slivers], which in
@@ -185,7 +219,16 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                             ),
                             label: Text('Ver Carrito'),
                             icon: Icon(Icons.add_shopping_cart),
-                            onPressed: () => _pushPage(context, CartProduct()),
+                            onPressed: () {
+                              if (body != null) {
+                                body.clear();
+                                s_total = 0;
+                                total = 0;
+                              }
+
+                              _obtenerDatosCarrito();
+                              _initializeTimer();
+                            },
                           )
                         ],
                       ),
@@ -247,4 +290,74 @@ List _obtenerDatosMenu() {
   cate = cate.toSet().toList();
   categoriasM = cate;
   print(cate);
+}
+
+final List carro = [];
+double s_total = 0;
+double total = 0;
+Map<String, dynamic> body;
+var carro1 = [];
+void _obtenerDatosCarrito() {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  print("Control nombre: " + control);
+  firestoreInstance
+      .collection("Carrito")
+      .where("user_id", isEqualTo: firebaseUser.uid)
+      .where("Restaurante", isEqualTo: control)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      String restaurante = result.get("Restaurante");
+      String comida = result.get("Comida");
+      String user_id = result.get("user_id");
+      double precio = result.get("Precio");
+      String imagen = result.get("Imagen");
+      int cantidad = result.get("Cantidad");
+      List data = [];
+      s_total = s_total + precio;
+      data.add(restaurante);
+      data.add(comida);
+      data.add(cantidad);
+      print("data");
+      print("Restaurante...: " + restaurante);
+      // print(data);
+      carro.add(MostrandoCarrito(
+          user_id, restaurante, comida, cantidad, precio, imagen));
+    });
+  });
+}
+
+void _addBody() {
+  print(carro);
+  body = {"Comidas": []};
+  carro1 = carro.map((comida) => comida.toMap()).toList();
+  body['Comidas'].addAll(carro1);
+  print("Comidas.......");
+  print('${body['Comidas']}');
+  total = s_total + 3000;
+  // print(carro1);
+  carro.clear();
+}
+
+class MostrandoCarrito {
+  final int cantidad;
+  final String user_id;
+  final String restaurante;
+  final String comida;
+  final double precio;
+  final String imagen;
+
+  MostrandoCarrito(this.user_id, this.restaurante, this.comida, this.cantidad,
+      this.precio, this.imagen);
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['user_id'] = this.user_id;
+    data['restaurante'] = this.restaurante;
+    data['comida'] = this.comida;
+    data['cantidad'] = this.cantidad;
+    data['precio'] = this.precio;
+    data['imagen'] = this.imagen;
+    return data;
+  }
 }
