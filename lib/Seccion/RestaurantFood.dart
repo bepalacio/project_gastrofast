@@ -200,6 +200,8 @@ void _agregarAlCarrito() {
       "Restaurante": nombre,
       "Cantidad": cant,
       "Comida": controlDetails,
+      "Precio": precio,
+      "Imagen": url,
       "user_id": firebaseUser.uid
     }).then((value) {
       print(value.id);

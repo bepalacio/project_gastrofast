@@ -1,5 +1,6 @@
 import 'package:f_202110_firebase_google_login/Formularios/home.dart';
 import 'package:f_202110_firebase_google_login/Formularios/perfil.dart';
+// import 'package:f_202110_firebase_google_login/Formularios/Politicas_de_Privacidad.dart';
 import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:f_202110_firebase_google_login/dialog/policy_dialog.dart';
 import 'package:f_202110_firebase_google_login/google/google_log_in.dart';
@@ -64,13 +65,14 @@ class Interface_Entrada extends StatelessWidget {
     return Padding(
       padding: new EdgeInsets.only(top: statusBarHeight),
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(245, 100, 90, 10),
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Color.fromRGBO(245, 100, 90, 1),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 30),
+              SizedBox(height: 60),
               TextButton(
                   onPressed: () => _pushPage(context, Perfil()),
                   child: Row(
@@ -151,6 +153,7 @@ class Interface_Entrada extends StatelessWidget {
                           );
                         });
                   },
+                  //_pushPage(context, PoliticasDePrivacidad()),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -191,7 +194,7 @@ class Interface_Entrada extends StatelessWidget {
                       ),
                       SizedBox(width: 7),
                       Text(
-                        'Seguridad',
+                        'Terminos y condiciones',
                         style: TextStyle(color: Colors.white),
                       ),
                     ],
@@ -202,7 +205,7 @@ class Interface_Entrada extends StatelessWidget {
                 indent: 35,
                 endIndent: 120,
               ),
-              SizedBox(height: 7),
+              Spacer(),
               TextButton(
                   onPressed: () {
                     if (loginp.sw1 == true) {

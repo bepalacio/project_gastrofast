@@ -424,8 +424,6 @@ void _obtenerMenuRestaurante(int id) async {
   print("Link Menu: " + linkMenu);
 }
 
-int id_rest;
-
 void _obtenerDatosRest() async {
   print("Nombre: ..." + nombreD);
   await firestoreInstance
@@ -440,7 +438,6 @@ void _obtenerDatosRest() async {
   });
 }
 
-int rest_id;
 bool fav = false;
 void _obtenerDatosFavoritos() async {
   var firebaseUser = FirebaseAuth.instance.currentUser;

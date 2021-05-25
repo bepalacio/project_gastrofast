@@ -1,7 +1,12 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:f_202110_firebase_google_login/Formularios/menuLateral.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'Favoritos.dart';
 
 class Perfil extends StatelessWidget {
   @override
@@ -22,8 +27,41 @@ class Perfil extends StatelessWidget {
   }
 }
 
+Timer _timer;
+
 class Perfil_Usuario extends StatelessWidget {
   const Perfil_Usuario({Key key, String title}) : super(key: key);
+
+  void _initializeTimer1(BuildContext context) {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer =
+        Timer(const Duration(seconds: 2), () => _handleInactivity1(context));
+  }
+
+  void _handleInactivity1(BuildContext context) {
+    _timer?.cancel();
+    _timer = null;
+    _pushPage(context, ListFavorite());
+  }
+
+  void _initializeTimer(BuildContext context) {
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    // acción de configuración después de 5 minutos
+    _timer =
+        Timer(const Duration(seconds: 2), () => _handleInactivity(context));
+  }
+
+  void _handleInactivity(BuildContext context) {
+    _timer?.cancel();
+    _timer = null;
+    _addBodyFav();
+    _initializeTimer1(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +227,14 @@ class Perfil_Usuario extends StatelessWidget {
                     child: SizedBox(
                       width: 290,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (bodyF != null) {
+                            bodyF.clear();
+                          }
+                          _obtenerDatosFav();
+
+                          _initializeTimer(context);
+                        },
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -267,4 +312,78 @@ void _pushPage(BuildContext context, Widget page) {
   Navigator.of(context).push(
     MaterialPageRoute<void>(builder: (_) => page),
   );
+}
+
+final firestoreInstance = FirebaseFirestore.instance;
+final List favorito = [];
+Map<String, dynamic> bodyF;
+var favorito1 = [];
+void _obtenerDatosFav() {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
+  int cont = 0;
+  firestoreInstance
+      .collection("Favoritos")
+      .where("ID_usuario", isEqualTo: firebaseUser.uid)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      int id_restaurante = result.get("ID_restaurante");
+      String user_id = result.get("ID_usuario");
+      print("data");
+      print("Restaurante...: " + id_restaurante.toString());
+      // print(data);
+      _buscarRestaurante(id_restaurante);
+      favorito.add(MostrandoFavoritos(
+          firebaseUser.uid, nombreR, id_restaurante, direccionR, tiempoR));
+    });
+  });
+}
+
+String nombreR = "";
+String direccionR = "";
+int tiempoR;
+void _buscarRestaurante(int id) {
+  firestoreInstance
+      .collection("Restaurantes")
+      .where("ID", isEqualTo: id)
+      .get()
+      .then((querySnapshot) {
+    querySnapshot.docs.forEach((result) {
+      nombreR = result.get("Nombre");
+      direccionR = result.get("Direccion");
+      tiempoR = result.get("Tiempo de llegada");
+    });
+  });
+}
+
+void _addBodyFav() {
+  print(favorito);
+  bodyF = {"Favoritos": []};
+  favorito1 = favorito.map((favt) => favt.toMap()).toList();
+  bodyF['Favoritos'].addAll(favorito1);
+  print("Favoritos.......");
+  print('${bodyF['Favoritos']}');
+  // print(carro1);
+  favorito.clear();
+}
+
+class MostrandoFavoritos {
+  final int id;
+  final String user_id;
+  final String restaurante;
+  final String direccion;
+  final int tiempo;
+
+  MostrandoFavoritos(
+      this.user_id, this.restaurante, this.id, this.direccion, this.tiempo);
+
+  Map<String, dynamic> toMap() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['user_id'] = this.user_id;
+    data['id'] = this.id;
+    data['nombre'] = this.restaurante;
+    data['direccion'] = this.direccion;
+    data['tiempo'] = this.tiempo;
+    return data;
+  }
 }
