@@ -7,6 +7,7 @@ import 'package:f_202110_firebase_google_login/Seccion/RestaurantMaps.dart';
 import 'package:f_202110_firebase_google_login/Seccion/SearchRestaurant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantEncounter extends StatefulWidget {
   RestaurantEncounter({Key key}) : super(key: key);
@@ -238,7 +239,9 @@ class _RestaurantEncounterState extends State<RestaurantEncounter> {
                       primary: Color.fromRGBO(245, 100, 90, 50), // background
                       onPrimary: Colors.white, // foreground
                     ),
-                    onPressed: () => _pushPage(context, RestaurantMaps()),
+                    onPressed: () {
+                      _launchURL("https://goo.gl/maps/2QHdzVvD8pVisxxh7");
+                    },
                   )
                 ],
               ),
@@ -453,4 +456,12 @@ void _obtenerDatosFavoritos() async {
       print("rest: " + rest_id.toString());
     });
   });
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
