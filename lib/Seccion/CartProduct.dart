@@ -170,7 +170,9 @@ class _CartProductState extends State<CartProduct> {
                                           Spacer(),
                                           Text(
                                             "\u0024 " +
-                                                items["precio"].toString(),
+                                                (items["precio"] *
+                                                        items["cantidad"])
+                                                    .toString(),
                                           )
                                         ],
                                       ),
