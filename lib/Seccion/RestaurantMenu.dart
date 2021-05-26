@@ -314,7 +314,7 @@ void _obtenerDatosCarrito() {
       String imagen = result.get("Imagen");
       int cantidad = result.get("Cantidad");
       List data = [];
-      s_total = s_total + precio;
+      s_total = s_total + precio * cantidad;
       data.add(restaurante);
       data.add(comida);
       data.add(cantidad);

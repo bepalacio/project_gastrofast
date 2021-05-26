@@ -32,6 +32,7 @@ String passs = "";
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
+  //Logeo de usuario con correo uy contraseña
   _login(BuildContext context, correo, pass) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
@@ -134,15 +135,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   TextField(
                     controller: _emailController,
-                    /*
-                    decoration: InputDecoration(
-                        suffix: GestureDetector(
-                      child: Icon(Icons.access_alarm_outlined),
-                      onTap: () {
-                        _emailController.clear();
-                      },
-                    )),
-                    */
                   ),
                   SizedBox(
                     height: 15.0,
@@ -219,6 +211,7 @@ class _LoginPageState extends State<LoginPage> {
 
 final firestoreInstance = FirebaseFirestore.instance;
 
+//Metodo para agregar un nuevo usuario a la tabla usuario en la base de datos
 Future<void> addUser(String uid, String fullName, String username, int telefono,
     String correo, String pass, BuildContext context, String foto) {
   print("Agregando usuario");
@@ -244,6 +237,7 @@ Future<void> addUser(String uid, String fullName, String username, int telefono,
       .catchError((error) => print("Failed to add user: $error"));
 }
 
+//SIgnIn con google
 Future _signInWithGoogle(BuildContext context) async {
   // get GoogleUser
   final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
@@ -271,6 +265,7 @@ Future _signInWithGoogle(BuildContext context) async {
   });
 }
 
+//Mostrar un Dialog con un mensaje de alerta
 Future<void> _showMyDialog(BuildContext context, mensaje) async {
   return showDialog<void>(
     context: context,
